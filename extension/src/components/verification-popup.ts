@@ -58,24 +58,14 @@ export class VerificationPopup {
             <div class="verifeed-score-meaning"></div>
           </div>
 
-          <div class="verifeed-bias-section">
-            <div class="verifeed-bias-label">Bias Detection</div>
-            <div class="verifeed-bias-indicator">
-              <div class="verifeed-bias-bar">
-                <div class="verifeed-bias-marker"></div>
-              </div>
-              <div class="verifeed-bias-labels">
-                <span>Left</span>
-                <span>Center</span>
-                <span>Right</span>
-              </div>
-            </div>
-            <div class="verifeed-bias-confidence"></div>
+          <div class="verifeed-explanation-section">
+            <div class="verifeed-explanation-label">Analysis</div>
+            <div class="verifeed-explanation-text"></div>
           </div>
 
-          <div class="verifeed-explanation-section">
-            <div class="verifeed-explanation-label">Explanation</div>
-            <div class="verifeed-explanation-text"></div>
+          <div class="verifeed-evidence-section">
+            <div class="verifeed-evidence-label">Detailed Evidence</div>
+            <div class="verifeed-evidence-text"></div>
           </div>
 
           <div class="verifeed-sources-section">
@@ -218,12 +208,9 @@ export class VerificationPopup {
     console.log('[Verification Popup] Generating fallback mock');
     return {
       score: 50,
-      bias: 'center' as const,
-      biasConfidence: 0,
       explanation: 'This claim could not be verified. The backend service is currently unavailable.',
-      sources: [
-        'Fallback Mode - Backend Unavailable',
-      ],
+      sources: ['Fallback Mode - Backend Unavailable'],
+      evidence: 'Unable to analyze this claim without backend service. Please make sure the backend is running.',
     };
   }
 
@@ -261,24 +248,20 @@ export class VerificationPopup {
       console.log('[Verification Popup] Step 5: Score updated');
     }
 
-    console.log('[Verification Popup] Step 6: Updating bias');
-    // Bias
-    const biasMarker = this.popup.querySelector('.verifeed-bias-marker') as HTMLElement;
-    const biasConfidence = this.popup.querySelector('.verifeed-bias-confidence') as HTMLElement;
-    if (biasMarker && biasConfidence) {
-      const position = result.bias === 'left' ? 15 : result.bias === 'center' ? 50 : 85;
-      biasMarker.style.left = `${position}%`;
-      biasMarker.className = `verifeed-bias-marker verifeed-bias-${result.bias}`;
-      biasConfidence.textContent = `${result.bias.toUpperCase()} bias detected (${result.biasConfidence}% confidence)`;
-      console.log('[Verification Popup] Step 7: Bias updated');
-    }
-
-    console.log('[Verification Popup] Step 8: Updating explanation');
+    console.log('[Verification Popup] Step 6: Updating explanation');
     // Explanation
     const explanation = this.popup.querySelector('.verifeed-explanation-text');
     if (explanation) {
       explanation.textContent = result.explanation;
-      console.log('[Verification Popup] Step 9: Explanation updated');
+      console.log('[Verification Popup] Step 7: Explanation updated');
+    }
+
+    console.log('[Verification Popup] Step 8: Updating evidence');
+    // Evidence
+    const evidence = this.popup.querySelector('.verifeed-evidence-text');
+    if (evidence) {
+      evidence.textContent = result.evidence || 'No detailed evidence available.';
+      console.log('[Verification Popup] Step 9: Evidence updated');
     }
 
     console.log('[Verification Popup] Step 10: Updating sources');

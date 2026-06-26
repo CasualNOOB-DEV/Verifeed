@@ -3,8 +3,6 @@
  * Includes shared API types
  */
 
-export type BiasLabel = 'left' | 'center' | 'right';
-
 export interface PageContext {
   url: string;
   title: string;
@@ -19,10 +17,9 @@ export interface VerificationRequest {
 
 export interface VerificationResponse {
   score: number; // 0-100 truthfulness score with clear rubric
-  bias: BiasLabel;
-  biasConfidence: number; // 0-100
   explanation: string;
   sources: string[];
+  evidence: string; // Detailed evidence supporting the verdict
 }
 
 /**

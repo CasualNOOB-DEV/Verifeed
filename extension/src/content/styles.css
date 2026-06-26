@@ -218,83 +218,48 @@
   margin-top: 4px;
 }
 
-/* Bias Section */
-.verifeed-bias-section {
-  margin-bottom: 24px;
-}
-
-.verifeed-bias-label {
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #1a1a1a;
-}
-
-.verifeed-bias-indicator {
-  margin-bottom: 8px;
-}
-
-.verifeed-bias-bar {
-  position: relative;
-  height: 8px;
-  background: linear-gradient(90deg, #2196f3 0%, #9e9e9e 50%, #f44336 100%);
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
-
-.verifeed-bias-marker {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 3px solid white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transition: left 0.5s ease;
-}
-
-.verifeed-bias-left {
-  background: #2196f3;
-}
-
-.verifeed-bias-center {
-  background: #9e9e9e;
-}
-
-.verifeed-bias-right {
-  background: #f44336;
-}
-
-.verifeed-bias-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  color: #666;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.verifeed-bias-confidence {
-  font-size: 13px;
-  color: #666;
-  margin-top: 8px;
-}
-
 /* Explanation Section */
 .verifeed-explanation-section {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .verifeed-explanation-label {
   font-weight: 600;
   margin-bottom: 8px;
   color: #1a1a1a;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .verifeed-explanation-text {
   color: #555;
   line-height: 1.6;
   font-size: 13px;
+}
+
+/* Evidence Section */
+.verifeed-evidence-section {
+  margin-bottom: 20px;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 3px solid #2196f3;
+}
+
+.verifeed-evidence-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.verifeed-evidence-text {
+  color: #444;
+  line-height: 1.7;
+  font-size: 12px;
 }
 
 /* Sources Section */

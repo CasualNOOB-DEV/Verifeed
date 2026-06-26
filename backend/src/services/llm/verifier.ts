@@ -6,15 +6,13 @@
 import OpenAI from 'openai';
 import Anthropic from '@anthropic-ai/sdk';
 import Groq from 'groq-sdk';
-import { VerificationResponse, BiasLabel, PageContext } from '../../types';
+import { VerificationResponse, PageContext } from '../../types';
 
 interface LLMResponse {
   score: number;
-  bias: BiasLabel;
-  biasConfidence: number;
   explanation: string;
   sources: string[];
-  reasoning: string;
+  evidence: string;
 }
 
 export class LLMVerifier {
@@ -85,10 +83,9 @@ export class LLMVerifier {
       
       return {
         score: parsed.score,
-        bias: parsed.bias,
-        biasConfidence: parsed.biasConfidence,
         explanation: parsed.explanation,
         sources: parsed.sources,
+        evidence: parsed.evidence,
       };
 
     } catch (error) {
@@ -115,39 +112,74 @@ IMPORTANT: Use this context to better understand the claim. The source website m
 `;
     }
 
-    return `You are Verifeed, an expert fact-checker with access to comprehensive world knowledge. Your job is to verify factual claims using your training data, which includes encyclopedias, scientific papers, news archives, and reliable sources up to your knowledge cutoff.
+    return `You are Verifeed, an expert fact-checker with access to comprehensive knowledge from encyclopedias, scientific databases, historical records, and reliable sources. Your task is to thoroughly research and verify this claim.
 
 CLAIM TO VERIFY:
 "${claim}"
 ${contextSection}
-CRITICAL INSTRUCTIONS:
-1. DO NOT penalize claims for being short or lacking detail. Use your knowledge to fill in context.
-2. If a claim is a well-known fact (e.g., "Water boils at 100°C"), score it highly even if brief.
-3. Consider the SOURCE - claims from reputable news sites, scientific journals, or educational institutions should be given appropriate credibility.
-4. Use your broad knowledge of history, science, current events, and established facts to verify claims.
-5. Only mark claims as false/misleading if they contradict established facts or reliable sources.
-6. If a claim is simply an incomplete statement of a larger truth, explain this but still score it reasonably.
 
-SCORING GUIDELINES:
-- 85-100: Factually accurate, supported by reliable sources and scientific/historical consensus
-- 70-84: Largely accurate with minor simplifications or missing nuance
-- 50-69: Partially true but missing important context, or unverifiable but plausible
-- 30-49: Misleading, cherry-picked facts, or significant inaccuracies
-- 0-29: Demonstrably false, contradicts established facts, or known misinformation
+YOUR RESEARCH PROCESS:
+1. ANALYZE the claim - identify specific factual assertions
+2. SEARCH your knowledge base for relevant facts, studies, and historical data
+3. CROSS-REFERENCE multiple sources to verify accuracy
+4. EXAMINE context and potential misleading aspects
+5. PROVIDE specific evidence and data points
+6. CITE authoritative sources from your knowledge
 
-BIAS ASSESSMENT:
-- "left": Uses progressive/liberal framing, sources, or talking points
-- "center": Neutral presentation, balanced perspective
-- "right": Uses conservative framing, sources, or talking points
+SCORING RUBRIC (be rigorous and detailed):
 
-OUTPUT FORMAT (JSON only, no markdown):
+90-100: VERIFIED TRUE
+- Claim directly matches established scientific/historical facts
+- Supported by multiple authoritative sources (NASA, WHO, peer-reviewed journals)
+- All specific details are accurate
+- Example: "Earth orbits the Sun" - confirmed by astronomy, physics, direct observation
+
+75-89: MOSTLY ACCURATE  
+- Core claim is factually correct
+- Minor simplifications or missing nuance
+- Generally well-supported by evidence
+- Example: "Vaccines prevent disease" - true but lacks specificity about which vaccines/diseases
+
+50-74: PARTIALLY TRUE
+- Contains some accurate information
+- Missing critical context or cherry-picks data
+- Technically correct but potentially misleading
+- Example: "Most car accidents happen close to home" - statistically true but misleading context
+
+25-49: MOSTLY FALSE
+- Core claim contradicts established facts
+- Misrepresents data or research findings
+- Contains grain of truth buried in misinformation
+- Example: "COVID vaccines alter DNA" - vaccines exist but mechanism is completely wrong
+
+0-24: FALSE
+- Directly contradicts verified scientific/historical facts
+- No credible evidence whatsoever
+- Conflicts with expert consensus
+- Example: "Earth is flat" - contradicts physics, satellite imagery, centuries of data
+
+CRITICAL REQUIREMENTS:
+1. Search your knowledge thoroughly - cite SPECIFIC studies, data, historical events
+2. Provide DETAILED evidence in the "evidence" field - actual numbers, dates, findings
+3. Name SPECIFIC sources - not "scientists say" but "2019 WHO report showed..."
+4. Explain your reasoning clearly - why this score, what evidence supports it
+5. If uncertain, explain what's unclear and why
+
+OUTPUT (valid JSON only, no markdown):
 {
   "score": <0-100>,
-  "bias": "<left|center|right>",
-  "biasConfidence": <0-100>,
-  "explanation": "<2-3 sentences explaining your verdict, referencing your knowledge>",
-  "sources": ["<relevant source 1>", "<relevant source 2>", "<relevant source 3>"],
-  "reasoning": "<brief internal reasoning>"
+  "explanation": "<Clear 2-3 sentence verdict with specific reasoning>",
+  "evidence": "<Detailed paragraph with specific data, studies, facts from your knowledge that prove/disprove the claim. Include actual numbers, dates, and findings.>",
+  "sources": ["<specific source 1>", "<specific source 2>", "<specific source 3>"]
+}
+
+EXAMPLE:
+Claim: "The Earth is the third planet from the Sun"
+{
+  "score": 98,
+  "explanation": "This claim is astronomically accurate and verified by centuries of observation, modern space missions, and planetary science. The ordering is: Mercury (1st), Venus (2nd), Earth (3rd), Mars (4th).",
+  "evidence": "NASA's planetary science division confirms Earth's position as the third planet at an average distance of 149.6 million km (1 AU) from the Sun. This was established through Copernican heliocentrism (1543), refined by Kepler's laws (1609-1619), and directly confirmed by space missions including Voyager (1977), Cassini, and modern telescopes. The order has been independently verified through gravitational calculations, orbital mechanics, and direct observation.",
+  "sources": ["NASA Solar System Exploration Database", "International Astronomical Union planetary definitions", "Copernicus 'De revolutionibus orbium coelestium' (1543)"]
 }
 
 Return ONLY valid JSON, no other text.`;
@@ -251,11 +283,9 @@ Return ONLY valid JSON, no other text.`;
       // Validate and sanitize
       return {
         score: this.clamp(parsed.score, 0, 100),
-        bias: this.validateBias(parsed.bias),
-        biasConfidence: this.clamp(parsed.biasConfidence, 0, 100),
         explanation: String(parsed.explanation || 'No explanation provided'),
-        sources: Array.isArray(parsed.sources) ? parsed.sources.map(String) : [],
-        reasoning: String(parsed.reasoning || ''),
+        sources: Array.isArray(parsed.sources) ? parsed.sources.map(String).slice(0, 5) : [],
+        evidence: String(parsed.evidence || 'No detailed evidence provided'),
       };
 
     } catch (error) {
@@ -264,20 +294,6 @@ Return ONLY valid JSON, no other text.`;
       
       throw new Error('Failed to parse AI response. The model may have returned invalid JSON.');
     }
-  }
-
-  /**
-   * Validate bias label
-   */
-  private validateBias(bias: any): BiasLabel {
-    const validBiases: BiasLabel[] = ['left', 'center', 'right'];
-    const normalized = String(bias).toLowerCase() as BiasLabel;
-    
-    if (validBiases.includes(normalized)) {
-      return normalized;
-    }
-
-    return 'center'; // Default to center if invalid
   }
 
   /**
