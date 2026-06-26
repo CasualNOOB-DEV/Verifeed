@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifeed</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="popup-header">
+      <h1>Verifeed</h1>
+      <p class="tagline">Real-time fact checking</p>
+    </div>
+    
+    <div class="popup-content">
+      <!-- Status Section -->
+      <div class="status-section">
+        <div class="status-indicator">
+          <div class="status-dot" id="status-dot"></div>
+          <span class="status-text" id="status-text">Checking...</span>
+        </div>
+      </div>
+
+      <!-- Site Toggle -->
+      <div class="site-toggle-section" id="site-toggle-section">
+        <div class="site-info">
+          <span class="site-label">This site:</span>
+          <span class="site-name" id="site-name">-</span>
+        </div>
+        <button id="toggle-site-btn" class="toggle-btn">
+          Disable on this site
+        </button>
+      </div>
+
+      <!-- Info Section -->
+      <div class="info-section" id="info-section">
+        <p class="info-text" id="info-text">
+          Verifeed is scanning this page for factual claims. 
+          Click any highlighted text to verify it.
+        </p>
+      </div>
+
+      <!-- Disabled Message -->
+      <div class="disabled-section" id="disabled-section" style="display: none;">
+        <p class="disabled-text">
+          Verifeed is disabled on this site.
+        </p>
+        <button id="enable-site-btn" class="action-btn primary">
+          Enable on this site
+        </button>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="stats-section" id="stats-section">
+        <div class="stat">
+          <div class="stat-value" id="claims-count">-</div>
+          <div class="stat-label">Claims Found</div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions-section">
+        <button id="settings-btn" class="action-btn secondary">
+          Settings
+        </button>
+      </div>
+    </div>
+
+    <div class="popup-footer">
+      <p class="version" id="version">v0.1.0</p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

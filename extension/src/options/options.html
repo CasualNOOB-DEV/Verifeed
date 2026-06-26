@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verifeed Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <img src="/icons/icon48.png" alt="Verifeed" width="32" height="32">
+        <h1>Verifeed Settings</h1>
+      </div>
+      <p class="tagline">Real-time fact-checking for the web</p>
+    </header>
+
+    <main class="settings">
+      <!-- Global Enable/Disable -->
+      <section class="settings-section">
+        <h2>General</h2>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="enabled">Enable Verifeed</label>
+            <p class="setting-description">Turn fact-checking on or off globally</p>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="enabled" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- API Configuration -->
+      <section class="settings-section">
+        <h2>API Configuration</h2>
+        
+        <div class="setting-item vertical">
+          <label for="apiEndpoint">API Endpoint</label>
+          <p class="setting-description">The URL of the Verifeed verification server</p>
+          <div class="input-group">
+            <input type="url" id="apiEndpoint" placeholder="http://localhost:3000">
+            <button id="testConnection" class="btn btn-secondary">Test Connection</button>
+          </div>
+          <div id="connectionStatus" class="connection-status"></div>
+        </div>
+      </section>
+
+      <!-- Site Management -->
+      <section class="settings-section">
+        <h2>Site Management</h2>
+        <p class="section-description">Disable Verifeed on specific websites</p>
+        
+        <div class="setting-item vertical">
+          <div class="site-input-group">
+            <input type="text" id="newSite" placeholder="example.com">
+            <button id="addSite" class="btn btn-primary">Add Site</button>
+          </div>
+          <button id="addCurrentSite" class="btn btn-secondary btn-full">
+            + Add Current Site
+          </button>
+        </div>
+
+        <div class="disabled-sites-list" id="disabledSitesList">
+          <!-- Sites will be populated here -->
+        </div>
+
+        <p class="empty-state" id="noSitesMessage">
+          No sites disabled. Verifeed is active on all websites.
+        </p>
+      </section>
+
+      <!-- Display Settings -->
+      <section class="settings-section">
+        <h2>Display</h2>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <label for="highlightOpacity">Highlight Opacity</label>
+            <p class="setting-description">Adjust how visible the claim highlights are</p>
+          </div>
+          <div class="range-group">
+            <input type="range" id="highlightOpacity" min="10" max="60" value="30">
+            <span id="opacityValue">30%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="settings-section">
+        <h2>About</h2>
+        <div class="about-info">
+          <p><strong>Verifeed</strong> v<span id="version">0.1.0</span></p>
+          <p>AI-powered fact-checking for a more informed web.</p>
+          <div class="about-links">
+            <a href="https://github.com/verifeed" target="_blank">GitHub</a>
+            <span class="separator">|</span>
+            <a href="#" id="privacyLink">Privacy Policy</a>
+            <span class="separator">|</span>
+            <a href="#" id="feedbackLink">Send Feedback</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div id="saveStatus" class="save-status"></div>
+      <div class="footer-buttons">
+        <button id="resetDefaults" class="btn btn-secondary">Reset to Defaults</button>
+        <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

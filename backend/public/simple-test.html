@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Fetch Test</title>
+</head>
+<body>
+    <h1>Simple Fetch Test</h1>
+    <button id="testBtn">Test API Call</button>
+    <pre id="result"></pre>
+
+    <script>
+        document.getElementById('testBtn').addEventListener('click', async () => {
+            const resultEl = document.getElementById('result');
+            resultEl.textContent = 'Calling API...';
+            
+            try {
+                console.log('Starting fetch...');
+                const response = await fetch('http://localhost:3000/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: 'Test claim with 50% statistics' }),
+                });
+                
+                console.log('Got response:', response.status);
+                const data = await response.json();
+                console.log('Got data:', data);
+                
+                resultEl.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error:', error);
+                resultEl.textContent = 'Error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

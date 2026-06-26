@@ -1,0 +1,15 @@
+{
+  "name": "verifeed-extension",
+  "version": "1.0.0",
+  "description": "Verifeed Chrome Extension - Real-time fact checking",
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "watch": "node esbuild.config.js --watch",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "esbuild": "^0.20.2",
+    "typescript": "^5.4.5"
+  }
+}

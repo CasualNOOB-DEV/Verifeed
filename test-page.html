@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifeed Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        h1 {
+            color: #333;
+        }
+        .article {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h2>🧪 Verifeed Extension Test Page</h2>
+        <p><strong>How to test:</strong></p>
+        <ol>
+            <li>Make sure the Verifeed extension is loaded in Chrome</li>
+            <li>Open the browser console (F12) to see debug messages</li>
+            <li>Wait 1-2 seconds after page loads</li>
+            <li>Look for yellow highlights on the claims below</li>
+            <li>Click any yellow highlight to verify the claim</li>
+        </ol>
+        <p><strong>Expected behavior:</strong> Sentences with statistics, studies, or strong claims should be highlighted in yellow.</p>
+    </div>
+
+    <div class="article">
+        <h1>Test Article: Climate Change and Technology</h1>
+        
+        <p>
+            Studies show that global temperatures have risen by 1.1 degrees Celsius since pre-industrial times. 
+            This increase is directly linked to human activities according to climate scientists.
+        </p>
+
+        <p>
+            Research indicates that renewable energy capacity has increased by 45% over the last decade. 
+            Solar panel efficiency has improved dramatically, with modern panels converting up to 22% of sunlight into electricity.
+        </p>
+
+        <p>
+            Experts agree that electric vehicles will dominate the market by 2035. 
+            Currently, EVs represent only 4% of total car sales globally, but this number is growing rapidly.
+        </p>
+
+        <p>
+            Data from the International Energy Agency shows that carbon emissions decreased by 5.8% in 2020. 
+            However, experts warn that this reduction was temporary and primarily due to pandemic lockdowns.
+        </p>
+
+        <p>
+            According to recent reports, over 80% of consumers are willing to pay more for sustainable products. 
+            This trend is reshaping how companies approach manufacturing and marketing.
+        </p>
+
+        <p>
+            Scientists have discovered that deforestation rates in the Amazon increased by 17% last year. 
+            Environmental groups argue that stronger regulations are urgently needed to protect remaining forests.
+        </p>
+
+        <p>
+            Technology analysts predict that artificial intelligence will create 97 million new jobs by 2025. 
+            At the same time, automation is expected to displace 85 million positions in the same timeframe.
+        </p>
+
+        <p>
+            The World Health Organization reports that air pollution causes 7 million premature deaths annually. 
+            Urban areas with high traffic density show pollution levels that are 3 times higher than safe limits.
+        </p>
+    </div>
+
+    <script>
+        // Log when page is ready
+        console.log('[Test Page] Page loaded and ready for Verifeed extension');
+        
+        // Check if Verifeed has modified the page after a delay
+        setTimeout(() => {
+            const highlights = document.querySelectorAll('.verifeed-claim-highlight');
+            console.log(`[Test Page] Found ${highlights.length} Verifeed highlights`);
+            
+            if (highlights.length === 0) {
+                console.warn('[Test Page] ⚠️ No highlights found! Check:');
+                console.warn('1. Is the extension loaded? Go to chrome://extensions/');
+                console.warn('2. Is the extension enabled?');
+                console.warn('3. Check the Console for Verifeed messages starting with [Verifeed]');
+                console.warn('4. Try refreshing the page');
+            } else {
+                console.log('[Test Page] ✅ Verifeed is working! Click any yellow highlight to test verification.');
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
