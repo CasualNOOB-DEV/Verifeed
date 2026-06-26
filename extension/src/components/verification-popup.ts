@@ -314,6 +314,12 @@ export class VerificationPopup {
   private updateHighlightColor(score: number) {
     if (!this.currentElement) return;
 
+    // Check if element has classList (manual verification might have a mock element)
+    if (!this.currentElement.classList) {
+      console.log('[Verification Popup] Skip color update for manual verification');
+      return;
+    }
+
     // Remove any existing verification classes
     this.currentElement.classList.remove(
       'verifeed-verified-high',

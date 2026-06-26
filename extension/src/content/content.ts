@@ -153,14 +153,22 @@ class VerifeedContent {
       rect = new DOMRect(window.innerWidth / 2, window.innerHeight / 2, 0, 0);
     }
 
+    // Create a minimal mock element for positioning
+    // This won't be highlighted, just used to position the popup
+    const mockElement = {
+      getBoundingClientRect: () => rect,
+      classList: {
+        remove: () => {},
+        add: () => {},
+      },
+    } as any as HTMLElement;
+
     // Dispatch event to show popup (reuse existing popup component)
     const event = new CustomEvent('verifeed:claim-clicked', {
       detail: {
         id: 'manual-' + Date.now(),
         text: text,
-        element: {
-          getBoundingClientRect: () => rect
-        },
+        element: mockElement,
         surroundingText: text, // Use the selected text itself as context
         pageContext: {
           url: window.location.href,
