@@ -3,6 +3,9 @@
  * Supports Groq (free), OpenAI, and Anthropic APIs
  */
 
+// CRITICAL: Load env config FIRST before using process.env!
+import '../../config/env';
+
 import OpenAI from 'openai';
 import Anthropic from '@anthropic-ai/sdk';
 import Groq from 'groq-sdk';

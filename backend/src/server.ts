@@ -3,10 +3,8 @@
  * Express backend for claim verification
  */
 
-// IMPORTANT: Load environment variables FIRST, before any other imports
-// that might depend on env vars (like the LLM verifier)
-import dotenv from 'dotenv';
-dotenv.config();
+// CRITICAL: Load env config FIRST!
+import './config/env';
 
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
