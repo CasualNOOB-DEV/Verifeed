@@ -4,7 +4,7 @@
  * Phase 3: Real AI integration
  */
 
-import { VerificationResponse, BiasLabel, PageContext } from '../types';
+import { VerificationResponse, PageContext } from '../types';
 import { LLMVerifier } from './llm/verifier';
 import { VerificationCache } from './cache';
 
@@ -100,22 +100,20 @@ export class VerificationService {
     // Clamp score
     score = Math.max(15, Math.min(88, score));
 
-    // Determine bias based on keywords
-    const bias = this.detectBias(text);
-    const biasConfidence = 55 + Math.floor(Math.random() * 30);
-
     // Generate explanation
     const explanation = this.generateExplanation(text, analysis, score);
 
     // Generate sources
     const sources = this.generateSources(analysis);
 
+    // Generate evidence
+    const evidence = 'This is a mock response. Enable AI verification in .env to get detailed evidence-based analysis with specific data, dates, and research findings.';
+
     return {
       score,
-      bias,
-      biasConfidence,
       explanation,
       sources,
+      evidence,
     };
   }
 
@@ -136,45 +134,6 @@ export class VerificationService {
       hasHealthKeywords: /(vaccine|covid|health|disease|treatment|cure|medication)/i.test(lowerText),
       hasEconomicKeywords: /(economy|inflation|unemployment|gdp|market|stock|recession)/i.test(lowerText),
     };
-  }
-
-  /**
-   * Detect political bias based on keywords
-   */
-  private detectBias(text: string): BiasLabel {
-    const lowerText = text.toLowerCase();
-
-    // Left-leaning indicators
-    const leftIndicators = [
-      'progressive', 'medicare for all', 'climate change',
-      'social justice', 'inequality', 'regulation'
-    ];
-
-    // Right-leaning indicators
-    const rightIndicators = [
-      'conservative', 'free market', 'deregulation',
-      'traditional values', 'limited government', 'second amendment'
-    ];
-
-    let leftScore = 0;
-    let rightScore = 0;
-
-    leftIndicators.forEach(keyword => {
-      if (lowerText.includes(keyword)) leftScore++;
-    });
-
-    rightIndicators.forEach(keyword => {
-      if (lowerText.includes(keyword)) rightScore++;
-    });
-
-    if (leftScore > rightScore && leftScore >= 2) return 'left';
-    if (rightScore > leftScore && rightScore >= 2) return 'right';
-
-    // Default to center with some randomness
-    const random = Math.random();
-    if (random < 0.2) return 'left';
-    if (random > 0.8) return 'right';
-    return 'center';
   }
 
   /**
