@@ -4,7 +4,7 @@
   "description": "Verifeed API Backend - Claim verification service",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "echo 'Serverless functions compiled automatically by Vercel'",
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
     "clean": "rm -rf dist",
