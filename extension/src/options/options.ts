@@ -172,7 +172,7 @@ class OptionsPage {
     statusEl.textContent = 'Testing connection...';
 
     try {
-      const response = await fetch(`${apiEndpoint}/health`, {
+      const response = await fetch(`${apiEndpoint}/api/health`, {
         method: 'GET',
         signal: AbortSignal.timeout(5000),
       });
@@ -180,7 +180,7 @@ class OptionsPage {
       if (response.ok) {
         const data = await response.json();
         statusEl.className = 'connection-status success';
-        statusEl.textContent = `Connected! Server uptime: ${Math.round(data.uptime)}s`;
+        statusEl.textContent = `✓ Connected! AI: ${data.ai || 'unknown'}`;
       } else {
         throw new Error(`HTTP ${response.status}`);
       }

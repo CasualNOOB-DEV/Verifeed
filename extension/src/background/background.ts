@@ -177,7 +177,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'healthCheck') {
     (async () => {
       try {
-        const response = await fetch(`${currentSettings.apiEndpoint}/health`, { method: 'GET' });
+        const response = await fetch(`${currentSettings.apiEndpoint}/api/health`, { method: 'GET' });
         sendResponse({ success: response.ok });
       } catch {
         sendResponse({ success: false });
@@ -192,7 +192,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     
     (async () => {
       try {
-        const response = await fetch(`${currentSettings.apiEndpoint}/verify`, {
+        const response = await fetch(`${currentSettings.apiEndpoint}/api/verify`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
