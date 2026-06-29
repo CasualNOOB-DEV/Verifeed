@@ -40,7 +40,7 @@ export interface VerifeedSettings {
 
 export const DEFAULT_SETTINGS: VerifeedSettings = {
   enabled: true,
-  apiEndpoint: 'http://localhost:3000', // Change to your Vercel URL after deployment
+  apiEndpoint: 'https://verifeed-eta.vercel.app',
   disabledSites: [],
   highlightOpacity: 30,
   autoVerify: false,
