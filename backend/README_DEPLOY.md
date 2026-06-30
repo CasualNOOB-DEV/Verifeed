@@ -15,7 +15,7 @@
 
 3. **Set Environment Variables** in Vercel dashboard:
    - Go to: https://vercel.com/your-project/settings/environment-variables
-   - Add: `GROQ_API_KEY` = `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`
+   - Add: `GROQ_API_KEY` = `YOUR_GROQ_API_KEY_HERE`
 
 4. **Your API URL will be**:
    ```

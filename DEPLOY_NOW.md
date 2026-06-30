@@ -92,7 +92,7 @@ Environment: Production, Preview, Development
 
 ```
 Name: GROQ_API_KEY
-Value: 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
+Value: YOUR_GROQ_API_KEY_HERE
 Environment: Production, Preview, Development
 ```
 
@@ -117,7 +117,7 @@ vercel env add ENABLE_AI
 # Select: Production, Preview, Development
 
 vercel env add GROQ_API_KEY
-# Enter: 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
+# Enter: YOUR_GROQ_API_KEY_HERE
 # Select: Production, Preview, Development
 
 # Redeploy to apply env vars

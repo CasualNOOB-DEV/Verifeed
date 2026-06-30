@@ -181,7 +181,7 @@ Test these claims to see the improvement:
 ### backend/.env (Created ✓)
 ```env
 ENABLE_AI=true  # MUST be true!
-GROQ_API_KEY=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
+GROQ_API_KEY=YOUR_GROQ_API_KEY_HERE
 PORT=3000
 NODE_ENV=development
 ```

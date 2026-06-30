@@ -26,7 +26,7 @@ vercel
 
 **Set Environment Variable:**
 1. In Vercel dashboard, go to Settings → Environment Variables
-2. Add: `GROQ_API_KEY` = `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`
+2. Add: `GROQ_API_KEY` = `YOUR_GROQ_API_KEY_HERE`
 3. Redeploy if needed
 
 **Test your deployment:**
